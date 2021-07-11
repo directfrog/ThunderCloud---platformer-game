@@ -16,22 +16,18 @@ over_screenWidth = 1200
 over_screenHeight = 800
 over_screen = pygame.display.set_mode((over_screenWidth, over_screenHeight), 0, 32)
 screen = pygame.Surface((screen_width, screen_height))
-dirt_img = pygame.image.load('dirt.png')
-grass_img = pygame.image.load('grass.png')
-player = pygame.image.load('player.png')
-player = pygame.transform.scale(player, (12, 32))
 background = pygame.image.load('background.png')
 chest_img = pygame.image.load('chest.png')
 test_menu = pygame.image.load('test_menu.png')
 crossair_image = pygame.image.load('crossair.png')
-tilemap = pygame.image.load('C:\\Users\\Roman\\Desktop\\python\\Blinded By The Light\\assets\\tilemap.png')
+tilemap = pygame.image.load('assets/tilemap.png')
 tilemap.set_colorkey((255, 255, 255))
-firstscene = load_map('C:\\Users\\Roman\\Desktop\\python\\Blinded By The Light\\tilemaps\\scene1.txt')
-spritesheet_img = pygame.image.load('C:\\Users\\Roman\\Desktop\\python\\Blinded By the Light\\assets\\fire.png').convert()
+firstscene = load_map('tilemaps/scene1.txt')
+spritesheet_img = pygame.image.load('assets/fire.png').convert()
 spritesheet_img.set_colorkey((0,0,0))
 
 ##### Getting player spritesheet #####
-player = pygame.image.load('C:\\Users\\Roman\\Desktop\\python\\Blinded By The Light\\assets\\player spritesheet.png')
+player = pygame.image.load('assets/player spritesheet.png')
 player_scale = 2
 player = pygame.transform.scale(player, (player.get_width()*player_scale, player.get_height()*player_scale))
 player.set_colorkey((255, 255, 255))
@@ -77,7 +73,7 @@ map_data = {
 player_img_data = {
 	'idle':(8*player_scale, 0*player_scale, 8*player_scale, 16*player_scale),
 	'run1':(0*player_scale, 0*player_scale, 8*player_scale, 16*player_scale),
-	'run2':(25*player_scale, 0*player_scale, 8*player_scale, 16*player_scale),
+	'run2':(16*player_scale, 0*player_scale, 8*player_scale, 16*player_scale),
 	'wallleft':(31*player_scale, 0*player_scale, 8*player_scale, 16*player_scale),
 	'wallright':(25*player_scale, 0*player_scale, 8*player_scale, 16*player_scale)
 }
@@ -143,7 +139,6 @@ while True:
 		y += 1 
 
 
-	print(len(chests))
 	##### looping over each chest in the game #####
 	for chest in chests:
 		if player_rect.colliderect(chest):
@@ -200,15 +195,15 @@ while True:
 	if collision_types['bottom'] == True:
 		vertical_momentum = 0	
 
-	#if collision_types['left']==True and collision_types['bottom'] == False:
-	#	run_img = 'wallleft'
-	#if collision_types['right']==True and collision_types['bottom'] == False:
-	#	run_img = 'wallright'
 
+	blit_surface = pygame.Surface((8*player_scale, 18*player_scale))
+	blit_surface.fill((255, 0, 4))
+	blit_surface.blit(player, (0, 0), player_img_data[run_img])
+	blit_surface.set_colorkey((255, 0, 4))
 	if player_direction == -1:
-		screen.blit(pygame.transform.flip(player, True, False), (player_rect.x-scroll[0], player_rect.y-scroll[1]), player_img_data[run_img])
+		screen.blit(pygame.transform.flip(blit_surface, True, False), (player_rect.x-scroll[0], player_rect.y-scroll[1]))
 	if player_direction == 1:
-		screen.blit(player, (player_rect.x-scroll[0] , player_rect.y-scroll[1]), player_img_data[run_img])
+		screen.blit(blit_surface, (player_rect.x-scroll[0] , player_rect.y-scroll[1]))
 
 	######### Pygame events #########
 	for event in pygame.event.get():
